@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -41,6 +42,8 @@ public class Drive extends SubsystemBase {
 
   private Encoder leftEncoder, rightEncoder;
 
+  public boolean Brake = true;               // SHOULD USUALLY BE FALSE!
+
   final double PULSE_PER_FOOT = 1300;
   final double PULSE_PER_METER = 4265.1;
   public final double WHEEL_SIZE = 6;  //measured in inches
@@ -70,6 +73,8 @@ public class Drive extends SubsystemBase {
     rightEncoder = new Encoder(RobotMap.D_RIGHT_ENCODER_A, RobotMap.D_RIGHT_ENCODER_B);
     leftEncoder.setDistancePerPulse(INCHES_PER_PULSE);
     rightEncoder.setDistancePerPulse(INCHES_PER_PULSE);
+
+    brakeModeToggle();
 
     frontLeft.follow(backLeft);
     frontRight.follow(backRight);
@@ -165,6 +170,18 @@ public class Drive extends SubsystemBase {
 
   public Encoder getRightEncoder() {
     return rightEncoder;
+  }
+
+  public void brakeModeToggle() {
+   
+    if (Brake = true) {backLeft.setNeutralMode(NeutralMode.Brake);
+    backRight.setNeutralMode(NeutralMode.Brake);}
+
+    else if(Brake = false) {
+      backLeft.setNeutralMode(NeutralMode.Coast);
+    backRight.setNeutralMode(NeutralMode.Coast);
+    }
+
   }
   
   @Override
